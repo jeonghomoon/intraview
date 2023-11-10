@@ -9,7 +9,7 @@
     id="insertUser"
     parameterType="kr.intraview.model.User"
   >
-    INSERT INTO "user" (id, email, password)
+    INSERT INTO `user` (id, email, password)
     VALUES (#{id}, #{email}, #{password})
   </insert>
 
@@ -19,7 +19,7 @@
     parameterType="String"
     resultType="kr.intraview.model.User"
   >
-    SELECT * FROM "user" WHERE email = #{email}
+    SELECT * FROM `user` WHERE email = #{email}
   </select>
 
 </mapper>
