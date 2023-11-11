@@ -4,6 +4,9 @@ spring:
     url: jdbc:mysql://localhost:3306/intraview
     username: root
     password:
+  flyway:
+    location: classpath:db/migration
+    baseline-on-migrate: true
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
