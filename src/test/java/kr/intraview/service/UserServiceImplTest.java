@@ -14,7 +14,7 @@ import kr.intraview.mapper.UserMapper;
 import kr.intraview.model.UserDTO;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UserServiceImplTest {
 
   @Mock
   UserMapper userMapper;
