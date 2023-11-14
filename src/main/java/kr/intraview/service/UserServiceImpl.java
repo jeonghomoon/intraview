@@ -33,4 +33,8 @@ public class UserServiceImpl implements UserService {
     userMapper.insertUser(user);
   }
 
+  public User loadUserByEmail(String email) {
+    return userMapper.findByEmail(email);
+  }
+
 }

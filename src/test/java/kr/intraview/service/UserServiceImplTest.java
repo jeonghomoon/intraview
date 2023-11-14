@@ -38,4 +38,16 @@ public class UserServiceImplTest {
     verify(userMapper, times(1)).insertUser(any());
   }
 
+  @Test
+  public void testLoadUserByEmail() {
+    // given
+    String email = "jeonghomoon@yahoo.com";
+
+    // when
+    userService.loadUserByEmail(email);
+
+    // then
+    verify(userMapper, times(1)).findByEmail(any());
+  }
+
 }
