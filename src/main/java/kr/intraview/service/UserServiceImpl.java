@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
     this.userMapper = userMapper;
   }
 
+  @Override
   public void createUser(UserDTO userDto) {
     String encodedPassword = passwordEncoder.encode(userDto.getPassword());
     User user = new User(
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
     userMapper.insertUser(user);
   }
 
+  @Override
   public User loadUserByEmail(String email) {
     return userMapper.findByEmail(email);
   }
