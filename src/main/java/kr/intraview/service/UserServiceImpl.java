@@ -2,9 +2,12 @@ package kr.intraview.service;
 
 import java.util.UUID;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import kr.intraview.exception.DuplicateEmailException;
+import kr.intraview.exception.EmailNotFoundException;
 import kr.intraview.mapper.UserMapper;
 import kr.intraview.model.User;
 import kr.intraview.model.UserDTO;
@@ -24,19 +27,28 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void createUser(UserDTO userDto) {
+  public void createUser(UserDTO userDto) throws DuplicateEmailException {
     String encodedPassword = passwordEncoder.encode(userDto.getPassword());
     User user = new User(
       UUID.randomUUID().toString(),
       userDto.getEmail(),
       encodedPassword
     );
-    userMapper.insertUser(user);
+
+    try {
+      userMapper.insertUser(user);
+    } catch (DuplicateKeyException e) {
+      throw new DuplicateEmailException("");
+    }
   }
 
   @Override
-  public User loadUserByEmail(String email) {
-    return userMapper.findByEmail(email);
+  public User loadUserByEmail(String email) throws EmailNotFoundException {
+    User user = userMapper.findByEmail(email);
+    if (user == null) {
+      throw new EmailNotFoundException("");
+    }
+    return user;
   }
 
 }
