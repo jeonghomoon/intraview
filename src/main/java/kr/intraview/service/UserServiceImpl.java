@@ -38,7 +38,9 @@ public class UserServiceImpl implements UserService {
     try {
       userMapper.insertUser(user);
     } catch (DuplicateKeyException e) {
-      throw new DuplicateEmailException("");
+      throw new DuplicateEmailException(
+        "Email already in use: " + userDto.getEmail()
+      );
     }
   }
 
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserService {
   public User loadUserByEmail(String email) throws EmailNotFoundException {
     User user = userMapper.findByEmail(email);
     if (user == null) {
-      throw new EmailNotFoundException("");
+      throw new EmailNotFoundException("No user found with email: " + email);
     }
     return user;
   }

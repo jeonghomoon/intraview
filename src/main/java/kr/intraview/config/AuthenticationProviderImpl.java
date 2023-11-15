@@ -40,7 +40,9 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
     try {
       User user = userService.loadUserByEmail(email);
       if (!passwordEncoder.matches(password, user.getPassword())) {
-        throw new BadCredentialsException("");
+        throw new BadCredentialsException(
+          "Invalid credentials for email: " + email
+        );
       }
 
       UserDetails userDetails = new UserDetailsImpl(user);
