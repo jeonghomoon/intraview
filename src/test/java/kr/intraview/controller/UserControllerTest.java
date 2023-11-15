@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
 import kr.intraview.exception.DuplicateEmailException;
-import kr.intraview.SecurityConfig;
+import kr.intraview.config.SecurityConfig;
 import kr.intraview.service.UserService;
 
 @WebMvcTest(UserController.class)
@@ -36,9 +36,9 @@ public class UserControllerTest {
 
     // when & then
     mockMvc.perform(post("/users/register")
-      .with(csrf())
       .param("email", email)
-      .param("password", password))
+      .param("password", password)
+      .with(csrf()))
       .andExpect(redirectedUrl("/login"));
   }
 
@@ -51,9 +51,9 @@ public class UserControllerTest {
 
     // when & then
     mockMvc.perform(post("/users/register")
-      .with(csrf())
       .param("email", email)
-      .param("password", password))
+      .param("password", password)
+      .with(csrf()))
       .andExpect(forwardedUrl("/register"));
   }
 
