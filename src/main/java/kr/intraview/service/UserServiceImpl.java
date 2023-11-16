@@ -29,11 +29,10 @@ public class UserServiceImpl implements UserService {
   @Override
   public void createUser(UserDTO userDto) throws DuplicateEmailException {
     String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-    User user = new User(
-      UUID.randomUUID().toString(),
-      userDto.getEmail(),
-      encodedPassword
-    );
+    User user = User.builder()
+      .id(UUID.randomUUID().toString())
+      .email(userDto.getEmail())
+      .password(encodedPassword).build();
 
     try {
       userMapper.insertUser(user);
