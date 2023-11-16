@@ -34,7 +34,10 @@ public class SecurityConfigTest {
     // given
     String email = "jeonghomoon@yahoo.com";
     String password = "1q2w3e4r1!";
-    User user = new User(null, email, passwordEncoder.encode(password).toString());
+    User user = User.builder()
+      .email(email)
+      .password(passwordEncoder.encode(password).toString())
+      .build();
     when(userService.loadUserByEmail(email)).thenReturn(user);
 
     // when & then
@@ -65,7 +68,7 @@ public class SecurityConfigTest {
     // given
     String email = "jeonghomoon@yahoo.com";
     String password = "1q2w3e4r1!";
-    User user = new User(null, email, password);
+    User user = User.builder().email(email).password(password).build();
     when(userService.loadUserByEmail(email)).thenReturn(user);
 
     // when & then

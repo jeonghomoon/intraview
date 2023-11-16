@@ -22,7 +22,11 @@ public class UserMapperTest {
   public void testInsertUser() {
     // given
     String email = "jeonghomoon@yahoo.com";
-    User user = new User(UUID.randomUUID().toString(), email, "1q2w3e4r1!");
+    User user = User.builder()
+      .id(UUID.randomUUID().toString())
+      .email(email)
+      .password("1q2w3e4r1!")
+      .build();
 
     // when
     userMapper.insertUser(user);

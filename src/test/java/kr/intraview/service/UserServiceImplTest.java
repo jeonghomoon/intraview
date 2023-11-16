@@ -37,7 +37,10 @@ public class UserServiceImplTest {
   @Test
   public void testCreateUser() {
     // given
-    UserDTO userDto = new UserDTO("jeonghomoon@yahoo.com", "1q2w3e4r1!");
+    UserDTO userDto = UserDTO.builder()
+      .email("jeonghomoon@yahoo.com")
+      .password("1q2w3e4r1!")
+      .build();
 
     // when & then
     assertDoesNotThrow(() -> userService.createUser(userDto));
@@ -47,7 +50,10 @@ public class UserServiceImplTest {
   @Test
   public void testCreateUserThrownDuplicateEmailException() {
     // given
-    UserDTO userDto = new UserDTO("jeonghomoon@yahoo.com", "1q2w3e4r1!");
+    UserDTO userDto = UserDTO.builder()
+      .email("jeonghomoon@yahoo.com")
+      .password("1q2w3e4r1!")
+      .build();
     doThrow(DuplicateKeyException.class).when(userMapper).insertUser(any());
 
     // when & then
@@ -61,7 +67,7 @@ public class UserServiceImplTest {
   public void testLoadUserByEmail() {
     // given
     String email = "jeonghomoon@yahoo.com";
-    when(userMapper.findByEmail(any())).thenReturn(new User());
+    when(userMapper.findByEmail(any())).thenReturn(User.builder().build());
 
     // when & then
     assertDoesNotThrow(() -> userService.loadUserByEmail(email));

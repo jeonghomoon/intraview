@@ -1,30 +1,20 @@
 package kr.intraview.model;
 
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
 public class User {
 
   private String id;
   private String email;
   private String password;
 
-  public User() {
-  }
-
+  @Builder
   public User(String id, String email, String password) {
     this.id = id;
     this.email = email;
     this.password = password;
-  }
-
-  public String getId() {
-    return this.id;
-  }
-
-  public String getEmail() {
-    return this.email;
-  }
-
-  public String getPassword() {
-    return this.password;
   }
 
 }
