@@ -3,9 +3,11 @@ package kr.intraview.controller;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,14 @@ public class UserControllerTest {
 
   @MockBean
   UserService userService;
+
+  @Test
+  public void testShowRegisterPage() throws Exception {
+    // given & when & then
+    mockMvc.perform(get("/users/register"))
+      .andExpect(view().name("register"))
+      .andExpect(model().attributeExists("user"));
+  }
 
   @Test
   public void testRegisterUser() throws Exception {
@@ -54,7 +64,8 @@ public class UserControllerTest {
       .param("email", email)
       .param("password", password)
       .with(csrf()))
-      .andExpect(forwardedUrl("/register"));
+      .andExpect(view().name("register"))
+      .andExpect(model().attributeHasFieldErrors("user", "email"));
   }
 
 }
