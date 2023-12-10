@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHandler {
 
@@ -27,9 +28,14 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
     } else {
       errorMessage = "알 수 없는 오류입니다.";
     }
+ 
+    String email = request.getParameter("email"); 
 
-    request.setAttribute("errorMessage", errorMessage);
-    request.getRequestDispatcher("/login").forward(request, response);
+    HttpSession session = request.getSession();
+    session.setAttribute("loginEmail", email);
+    session.setAttribute("loginErrorMessage", errorMessage);
+
+    response.sendRedirect("/login");
   }
 
 }

@@ -33,6 +33,7 @@ public class SecurityConfig {
       .authenticationProvider(authenticationProvider())
       .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
       .formLogin(form -> form
+        .loginPage("/login")
         .usernameParameter("email")
         .loginProcessingUrl("/users/login")
         .defaultSuccessUrl("/interviews", true)
@@ -48,7 +49,7 @@ public class SecurityConfig {
 
   @Bean
   public AuthenticationProvider authenticationProvider() {
-    AuthenticationProviderImpl authProvider = new AuthenticationProviderImpl();
+    EmailAuthenticationProvider authProvider = new EmailAuthenticationProvider();
     authProvider.setPasswordEncoder(passwordEncoder());
     authProvider.setUserService(userService);
     return authProvider;

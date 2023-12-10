@@ -32,7 +32,8 @@ public class UserServiceImpl implements UserService {
     User user = User.builder()
       .id(UUID.randomUUID().toString())
       .email(userDto.getEmail())
-      .password(encodedPassword).build();
+      .password(encodedPassword)
+      .build();
 
     try {
       userMapper.insertUser(user);

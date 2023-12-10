@@ -14,12 +14,12 @@ import kr.intraview.model.User;
 import kr.intraview.model.UserDetailsImpl;
 import kr.intraview.service.UserService;
 
-public class AuthenticationProviderImpl implements AuthenticationProvider {
+public class EmailAuthenticationProvider implements AuthenticationProvider {
 
   private PasswordEncoder passwordEncoder;
   private UserService userService;
 
-  public AuthenticationProviderImpl() {
+  public EmailAuthenticationProvider() {
   }
 
   public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
