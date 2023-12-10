@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
@@ -8,6 +9,13 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     >
+    <style>
+      .loading {
+        display: none;
+        font-size: 1.2rem;
+        color: blue;
+      }
+    </style>
   </head>
   <body>
     <div class="container mt-4">
@@ -19,6 +27,7 @@
           <pre th:text="${interviewDetail.resume}"></pre>
         </div>
       </div>
+
       <div th:each="question, qStat : ${interviewDetail.questions}">
         <div class="card mb-2">
           <div class="card-header">
@@ -27,6 +36,7 @@
           <div class="card-body">
             <div th:if="${question.answers.isEmpty()}">
               <form
+                th:id="'feedbackForm' + ${qStat.index}"
                 th:action="@{{interviewId}/questions/{questionId}/answer(interviewId=${interviewDetail.id},questionId=${question.id})}"
                 method="post"
               >
@@ -34,7 +44,8 @@
                   <label for="content">답변을 입력해 주세요:</label>
                   <textarea class="form-control mt-1 mb-3" id="content" name="content" rows="3"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">피드백 받기</button>
+                <button type="submit" class="btn btn-primary feedback-btn">피드백 받기</button>
+                <span class="loading" th:id="'loading' + ${qStat.index}">로딩 중...</span>
               </form>
             </div>
             <div th:each="answer, aStat : ${question.answers}">
@@ -53,15 +64,26 @@
                 </div>
               </div>
             </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
+    <script>
+      document.querySelectorAll('.feedback-btn').forEach(function(button, index) {
+        button.addEventListener('click', function() {
+          var loadingId = 'loading' + index;
+          var formId = 'feedbackForm' + index;
+          document.getElementById(loadingId).style.display = 'inline';
+          document.getElementById(formId).querySelector('.feedback-btn').disabled = true;
+        });
+      });
+    </script>
   </body>
 </html>
+
