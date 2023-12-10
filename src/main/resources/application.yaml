@@ -1,7 +1,9 @@
 spring:
+  config:
+    import: classpath:application-openai.yaml
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/intraview
+    url: jdbc:mysql://localhost:3306/intraview_v2
     username: root
     password:
   flyway:

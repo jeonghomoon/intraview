@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<mapper namespace="kr.intraview.mapper.InterviewMapper">
+
+  <resultMap id="interviewDetailResult" type="kr.intraview.model.InterviewDetail">
+    <id property="id" column="interview_id"/>
+    <result property="userId" column="user_id"/>
+    <result property="title" column="interview_title"/>
+    <result property="resume" column="interview_resume"/>
+    <collection
+      property="questions"
+      resultMap="kr.intraview.mapper.QuestionMapper.questionDetailResult"
+      notNullColumn="question_id"
+    />
+  </resultMap>
+
+  <insert
+    id="insertInterview"
+    parameterType="kr.intraview.model.Interview"
+  >
+    INSERT INTO interview (id, user_id, title, resume)
+    VALUES (#{id}, #{userId}, #{title}, #{resume})
+  </insert>
+
+  <select
+    id="findInterviewsByUserId"
+    parameterType="String"
+    resultType="kr.intraview.model.Interview"
+  >
+    SELECT * FROM interview WHERE interview.user_id = #{userId};
+  </select>
+
+  <select
+    id="findInterviewDetailById"
+    parameterType="String"
+    resultMap="interviewDetailResult"
+  >
+    SELECT 
+      interview.id AS interview_id,
+      interview.user_id AS user_id,
+      interview.title AS interview_title,
+      interview.resume AS interview_resume,
+      question.id AS question_id,
+      question.content AS question_content,
+      answer.id AS answer_id,
+      answer.content AS answer_content,
+      answer.feedback AS answer_feedback,
+      answer.followup AS answer_followup
+    FROM 
+      interview
+    LEFT JOIN 
+      question ON interview.id = question.interview_id
+    LEFT JOIN 
+      answer ON question.id = answer.question_id
+    WHERE 
+      interview.id = #{interviewId};
+  </select>
+
+</mapper>

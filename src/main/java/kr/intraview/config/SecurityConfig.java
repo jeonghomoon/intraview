@@ -31,7 +31,10 @@ public class SecurityConfig {
   ) throws Exception {
     http
       .authenticationProvider(authenticationProvider())
-      .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+      .authorizeHttpRequests(authorize -> authorize
+        .requestMatchers("/register", "/login").permitAll()
+        .anyRequest().authenticated()
+      )
       .formLogin(form -> form
         .loginPage("/login")
         .usernameParameter("email")

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<mapper namespace="kr.intraview.mapper.QuestionMapper">
+
+  <resultMap id="questionDetailResult" type="kr.intraview.model.QuestionDetail">
+    <id property="id" column="question_id" />
+    <result property="content" column="question_content" />
+    <collection
+      property="answers"
+      resultMap="kr.intraview.mapper.AnswerMapper.answerResult"
+      notNullColumn="answer_id"
+    />
+  </resultMap>
+
+  <insert
+    id="insertQuestion"
+    parameterType="kr.intraview.model.Question"
+  >
+    INSERT INTO question (id, interview_id, content)
+    VALUES (#{id}, #{interviewId}, #{content})
+  </insert>
+
+  <select
+    id="findById"
+    parameterType="String"
+    resultType="kr.intraview.model.Question"
+  >
+    SELECT * FROM question WHERE id = #{questionId}
+  </select>
+
+  <select
+    id="findQuestionsByResumeId"
+    parameterType="String"
+    resultType="kr.intraview.model.Question"
+  >
+    SELECT *
+    FROM question
+    JOIN preparation ON question.id = preparation.question_id
+    WHERE preparation.resume_id = #{resumeId};
+  </select>
+
+</mapper>
