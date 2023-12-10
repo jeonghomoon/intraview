@@ -22,7 +22,6 @@ public class EmailPasswordAuthenticationFilter extends UsernamePasswordAuthentic
     HttpServletRequest request,
     HttpServletResponse response
   ) throws AuthenticationException {
-    request.getParameterNames().asIterator().forEachRemaining(name -> System.out.println(name + ": " + request.getParameter(name))); 
     String email = obtainUsername(request);
     String password = obtainPassword(request);
 
